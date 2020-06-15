@@ -14,9 +14,18 @@ class SavedBooks extends React.Component{
         })
     }
 
+    refresh=() => {
+        Axios.get("/api/savebook").then(results=>{
+          
+            this.setState({bookslist:results.data})
+            console.log(this.state.bookslist);
+        })
+    }
+
     render(){
         return(<div>
             <h4>Saved Books</h4>
+            <button onClick={this.refresh}>Refresh</button>
             {this.state.bookslist.map((book,key)=>(
                 <Book 
                  id ={book.id}
