@@ -1,5 +1,6 @@
 import React from "react";
 import Axios from "axios";
+import BookInfo from "./BookInfo";
 
 class BooksSearch extends React.Component {
     state = {
@@ -20,8 +21,9 @@ class BooksSearch extends React.Component {
                   element = {
                       title: data[index].volumeInfo.title,
                       author: data[index].volumeInfo.authors[0],
-                      description: data[index].volumeInfo.description
-                      
+                      description: data[index].volumeInfo.description,
+                      id: data[index].id,
+                      saved:false
                     };
                 }
                 else{
@@ -39,7 +41,18 @@ class BooksSearch extends React.Component {
           })
     
     }
-
+     saveBook = (id) =>{
+         
+         var books = this.state.bookResults;
+         for(let i=0;i<books.length;i++){
+            console.log(id,books[i].id)
+             if(books[i].id ===id){
+                 books[i].saved = true
+             }
+         }
+         this.setState({bookResults : books});
+         console.log(this.state.bookResults)
+     }
     handleInputChange = event => {
         const { name, value } = event.target;
         this.setState({
@@ -71,6 +84,19 @@ class BooksSearch extends React.Component {
                 >
                     Search
             </button>
+            </div>
+            <div className="container">
+                {this.state.bookResults.map((book,key) => (
+                    <BookInfo 
+                    title = {book.title}
+                    description = {book.description}
+                    saved ={book.saved}
+                    author = {book.author}
+                    key={key}
+                    id={book.id}
+                    saveBook ={this.saveBook}
+                    />
+                ))}
             </div>
         </div>
         )
