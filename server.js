@@ -20,6 +20,10 @@ mongoose.connect(
   process.env.MONGODB_URI || "mongodb://mario:password1@ds149742.mlab.com:49742/heroku_h4ffg1s4"
 );
 
+if(process.env.NODE_ENV === 'production'){
+   app.use(express.static('client/build'));
+}
+
 // Start the API server
 app.listen(PORT, function() {
   console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
